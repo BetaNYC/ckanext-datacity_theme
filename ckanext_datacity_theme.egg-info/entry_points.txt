@@ -1,0 +1,4 @@
+
+        [ckan.plugins]
+        datacity_theme=ckanext.datacity_theme.plugin:Datacity_ThemePlugin
+    

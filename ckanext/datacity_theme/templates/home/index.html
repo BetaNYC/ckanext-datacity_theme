@@ -1,0 +1,43 @@
+{% extends "page.html" %}
+{% set homepage_style = ( g.homepage_style ) %}
+
+{% block subtitle %}{{ _("Welcome") }}{% endblock %}
+
+{% block maintag %}{% endblock %}
+{% block toolbar %}{% endblock %}
+
+{% block content %}
+<div role="main" class="hero">
+    {% block search %}
+       {% snippet 'home/snippets/states_map.html' %}
+    {% endblock %}
+</div>
+<div role="main">
+  <div class="container">
+    <div class="row row2">
+      <div class="span6 col2">
+        {% block promoted %}
+          {% snippet 'home/snippets/promoted.html' %}
+        {% endblock %}
+      </div>
+      <div class="span6 col1">
+        {% block stats %}
+          {% snippet 'home/snippets/stats.html' %}
+        {% endblock %}
+      </div>
+      <div class="span6 col2">
+      	</br>
+        {% block featured_organization %}
+          {% snippet 'home/snippets/featured_organization.html' %}
+        {% endblock %}
+      </div>
+      <div class="span6 col2">
+      	</br>
+        {% block featured_group %}
+          {% snippet 'home/snippets/featured_group.html' %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

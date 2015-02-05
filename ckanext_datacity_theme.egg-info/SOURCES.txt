@@ -1,0 +1,14 @@
+MANIFEST.in
+README.rst
+setup.py
+ckanext/__init__.py
+ckanext/datacity_theme/__init__.py
+ckanext/datacity_theme/plugin.py
+ckanext/datacity_theme/templates/home/index.html
+ckanext/datacity_theme/tests/__init__.py
+ckanext/datacity_theme/tests/test_plugin.py
+ckanext_datacity_theme.egg-info/PKG-INFO
+ckanext_datacity_theme.egg-info/SOURCES.txt
+ckanext_datacity_theme.egg-info/dependency_links.txt
+ckanext_datacity_theme.egg-info/entry_points.txt
+ckanext_datacity_theme.egg-info/top_level.txt

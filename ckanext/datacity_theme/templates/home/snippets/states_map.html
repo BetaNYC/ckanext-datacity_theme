@@ -1,0 +1,145 @@
+{% set tags = h.get_facet_items_dict('tags', limit=3) %}
+{% set placeholder = _('E.g. environment') %}
+	<head>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		
+		<script src="http://leaflet.github.com/Leaflet.draw/lib/leaflet/leaflet.js"></script>	
+		<link href="http://leaflet.github.com/Leaflet.draw/lib/leaflet/leaflet.css" rel="stylesheet" />
+		
+		
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.js'></script>
+		<link href='http://api.tiles.mapbox.com/mapbox.js/v2.1.2/mapbox.css' rel='stylesheet' />
+		
+		<script src="/js/leaflet.label.js"></script>
+		<!-- <link href='http://dev.pediacities.com/static/css/vendor/leaflet.label.css' rel='stylesheet' /> -->
+		<link href="http://leaflet.github.io/Leaflet.label/leaflet.label.css" rel='stylesheet'/>
+	</head>
+	<script type="text/javascript">
+			// UTILS
+			var escapeRegExp = function(str) {
+			 		if (str == null) return '';
+			 		return String(str).replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+			}
+			
+			var defaultToWhiteSpace = function(characters) {
+			 		if (characters == null)
+			   		return '\\s';
+			 		else if (characters.source)
+			   		return characters.source;
+			 		else
+			   	return '[' + escapeRegExp(characters) + ']';
+				}
+			
+			var nativeTrim = String.prototype.trim;
+			var trim = function(str, characters) {
+			 if (str == null) return '';
+			 if (!characters && nativeTrim) return nativeTrim.call(str);
+			 characters = defaultToWhiteSpace(characters);
+			 return String(str).replace(new RegExp('\^' + characters + '+|' + characters + '+$', 'g'), '');
+			}
+			
+			
+			var dasherize = function(str) {
+			 		return trim(str).replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase();
+			}
+			
+			var slugify = function(str) {
+			 		if (str == null) return '';
+			
+			 	 var from = "ąàáäâãåæăćęèéëêìíïîłńòóöôõøśșțùúüûñçżź",
+			 	 to = "aaaaaaaaaceeeeeiiiilnoooooosstuuuunczz",
+			     	regex = new RegExp(defaultToWhiteSpace(from), 'g');
+			
+			 		str = String(str).toLowerCase().replace(regex, function(c){
+			   		var index = from.indexOf(c);
+			   		return to.charAt(index) || '-';
+			 		});
+			
+			 		return dasherize(str.replace(/[^\w\s-]/g, ''));
+			}
+			
+			
+		</script>
+		<script type="text/javascript">
+			var browserWidth = width;
+			
+			var height = $("#states-map").height();
+			var width = $("#states-map").width();
+			
+			
+			var allowMapDrag = (browserWidth > 480) ? true : false;
+			
+			var svg = d3.select("#states-map").append("svg")
+			          .attr("width", width)
+			          .attr("height", height) 
+			          .style("background-opacity",0)
+			          .style("border-radius","30px")
+			
+			var g = svg.append("g")
+			
+			
+			// Update the header's list of parent geographies
+			
+			d3.json("/misc/us_states.geojson", function(error, us_states) {
+			    if (error) return console.warn(error);
+			    var allowMapDrag =  true;
+			
+				
+			    L.mapbox.accessToken = 'pk.eyJ1Ijoib250b2RpYWluYyIsImEiOiJ1U1NUZl9JIn0.47qr50w2gJR7dsWRwp_SPg';
+				
+			
+			  	// Create a map in the div #map
+			    var map = L.mapbox.map('states-map', 'ontodiainc.j9ooig83', {
+			        scrollWheelZoom: false,
+			        zoomControl: false,
+			        doubleClickZoom: false,
+			        boxZoom: false,
+			        keyboard: false,
+			        dragging: allowMapDrag,
+			        touchZoom: allowMapDrag
+			    });
+				
+			    if (allowMapDrag) {
+			        map.addControl(new L.Control.Zoom({
+			            position: 'topright'
+			        }));
+			    }
+			   
+			   	var defaultStyle = {
+			                "clickable": true,
+			                "color": "#030",
+			                "fillColor": "#ccc",
+			                "weight": 1.0,
+			                "opacity": 0.3,
+			                "fillOpacity": 0.1,
+			    }
+			    
+			    state_layer = L.geoJson(us_states, {
+			            style: defaultStyle,
+			            onEachFeature: function(feature, layer) {
+			                layer.bindLabel(feature.properties.name, {direction: 'auto'});
+			                layer.on('mouseover', function() {
+			                    layer.setStyle({
+			                        "fillColor": "#66c2a5",
+			                        "fillOpacity": 0.5,
+			                    });
+			                });
+			                layer.on('mouseout', function() {
+			                    layer.setStyle(defaultStyle);
+			                });
+			                layer.on('click', function() {
+			                    window.location = "/organization/" + slugify(feature.properties.name)
+			                });
+			            }
+			    });
+			        
+			    state_layer.addTo(map);	
+			    objBounds = L.latLngBounds(L.latLng(48.277420, -123.047459), L.latLng(28.769510, -67.237889));
+				map.fitBounds(objBounds);
+			    map.panBy([30, 10], {animate: false});
+			})
+</script>
+<div class="">
+  <div id="states-map" style="z-index:1;width:100%;height:400px;margin-top:-20px;margin-bottom:-20px"></div>
+</div>
