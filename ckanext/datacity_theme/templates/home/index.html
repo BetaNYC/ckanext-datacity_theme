@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% set homepage_style = ( g.homepage_style ) %}
+{% set homepage_style = ( g.homepage_style or '1' ) %}
 
 {% block subtitle %}{{ _("Welcome") }}{% endblock %}
 
@@ -7,37 +7,12 @@
 {% block toolbar %}{% endblock %}
 
 {% block content %}
-<div role="main" class="hero">
-    {% block search %}
-       {% snippet 'home/snippets/states_map.html' %}
-    {% endblock %}
-</div>
-<div role="main">
-  <div class="container">
-    <div class="row row2">
-      <div class="span6 col2">
-        {% block promoted %}
-          {% snippet 'home/snippets/promoted.html' %}
-        {% endblock %}
-      </div>
-      <div class="span6 col1">
-        {% block stats %}
-          {% snippet 'home/snippets/stats.html' %}
-        {% endblock %}
-      </div>
-      <div class="span6 col2">
-      	</br>
-        {% block featured_organization %}
-          {% snippet 'home/snippets/featured_organization.html' %}
-        {% endblock %}
-      </div>
-      <div class="span6 col2">
-      	</br>
-        {% block featured_group %}
-          {% snippet 'home/snippets/featured_group.html' %}
-        {% endblock %}
-      </div>
+  <div class="homepage layout-{{ homepage_style }}">
+    <div class="container">
+      {{ self.flash() }}
     </div>
+    {% block primary_content %}
+      {% snippet "home/layout{0}.html".format(homepage_style) %}
+    {% endblock %}
   </div>
-</div>
 {% endblock %}
