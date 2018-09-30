@@ -6,6 +6,7 @@ ckanext/datacity_theme/__init__.py
 ckanext/datacity_theme/plugin.py
 ckanext/datacity_theme/public/js/leaflet.label.js
 ckanext/datacity_theme/templates/home/index.html
+ckanext/datacity_theme/templates/home/layout3.html
 ckanext/datacity_theme/templates/home/snippets/states_map.html
 ckanext/datacity_theme/tests/__init__.py
 ckanext/datacity_theme/tests/test_plugin.py

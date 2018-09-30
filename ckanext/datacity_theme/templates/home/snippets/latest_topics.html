@@ -1,0 +1,31 @@
+{% if topics %}
+  <div class="module-content box" style="padding:20px;">
+    <header>
+      <h2 class="heading">
+        <a href="https://talk.beta.nyc/latest">Talk.Beta.NYC</a>
+        <a href="https://talk.beta.nyc/latest.rss"><img src="/images/icons/atom_feed-28x28.png"></a>
+      </h2>
+    </header>
+    <section>
+      <ul id="popular-list" class="unstyled dataset-list">
+        {% for topic in topics %}
+          <li class="dataset-item">
+            <div class="dataset-content">
+              <h3 class="dataset-heading">
+                <a href="https://talk.beta.nyc/t/{{ topic.slug }}/{{ topic.id }}">{{ topic.title }}</a>
+              </h3>
+              <div>
+                Updated on {{ topic.last_posted_at }}
+                {% if topic.posts_count-1 == 1 %}
+                  <div style="float:right">{{ topic.posts_count-1 }} Reply</div>
+                {% elif topic.posts_count-1 > 1 %}
+                  <div style="float:right">{{ topic.posts_count-1 }} Replies</div>
+                {% endif %}
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+{% endif %}

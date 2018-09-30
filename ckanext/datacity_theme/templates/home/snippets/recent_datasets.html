@@ -1,0 +1,10 @@
+{% set latest_datasets = h.datacity_theme_most_recent_datasets() %}
+
+  <div class="module-content box" style="padding:20px;">
+      <header>
+          <h2 class="heading">Recently Updated<a href="/feeds/dataset.atom" style="padding-left:5px"><img src="/images/icons/atom_feed-28x28.png"></a></h2>
+      </header>
+      <section>
+        {% snippet 'home/snippets/package_list.html', packages=latest_datasets %}
+      </section>
+  </div>

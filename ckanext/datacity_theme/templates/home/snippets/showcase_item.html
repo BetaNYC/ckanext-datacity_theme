@@ -1,0 +1,37 @@
+{#
+Displays a single dataset of type 'showcase'.
+
+showcase        - A showcase to display.
+item_class     - The class name to use on the list item.
+truncate       - The length to trucate the description to (default: 180)
+truncate_title - The length to truncate the title to (default: 80).
+show_remove    - If True, show the remove button to remove showcase/dataset association.
+
+#}
+{% set truncate = truncate or 180 %}
+{% set truncate_title = truncate_title or 80 %}
+{% set title = showcase.title or showcase.name %}
+{% set notes = h.markdown_extract(showcase.notes, extract_length=truncate) %}
+
+{% block showcase_item %}
+
+<div class="media-item" style="border-radius:6px; height:175px; padding:15px 10px 15px;">
+  {% block item_inner %}
+    {% block image %}
+      {% if showcase.extras[0].value and 'http' not in showcase.extras[0].value %}
+      <img data-lazy="/uploads/showcase/{{ showcase.extras[0].value }}" alt="{{ showcase.name }}" class="media-image" style="margin-left:auto; margin-right:auto; max-height:105px;">
+      {% else %}
+      <img data-lazy="{{ showcase.extras[0].value or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ showcase.name }}" class="media-image" style="margin-left:auto; margin-right:auto; max-height:105px;">
+      {% endif %}
+    {% endblock %}
+    {% block title %}
+      <h3 style="text-align:center;">{{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id=showcase.name)) }}</h3>
+    {% endblock %}
+    {% block link %}
+      <a href="{{ h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id=showcase.name) }}" title="{{ _('View {name}').format(name=showcase.title) }}" class="media-view">
+        <span>{{ _('View {name}').format(name=showcase.title) }}</span>
+      </a>
+    {% endblock %}
+  {% endblock %}
+</div>
+{% endblock %}

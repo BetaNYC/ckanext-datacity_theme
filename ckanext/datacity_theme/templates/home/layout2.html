@@ -6,18 +6,21 @@
   </div>
 </div>
 <div role="main" style="padding:0px">
+  {% if h.datacity_theme_showcases() %}
   <div class="main-featured">
     <div class="container">
       <div class="row">
         <div class="span12 col1">
           <div class="module-content box" style="padding-bottom:0px">
             <h2 class="heading" style="margin-bottom:0px"><a href="/showcase">Showcases</a></h2>
-              {% snippet 'home/snippets/showcase_list.html', showcases=h.datacity_theme_showcases() %}
+            {% snippet 'home/snippets/showcase_list.html', showcases=h.datacity_theme_showcases() %}
           </div>
         </div>
       </div>
     </div>
   </div>
+  {% endif %}
+  {% if h.datacity_theme_groups() %}
   <div class="main-browse">
     <div class="container">
       <div class="row">
@@ -26,14 +29,12 @@
             <h2 class="heading"><a href="/group">Groups</a></h2>
             {% for group in h.datacity_theme_groups() %}
               {% if group.packages > 0 %}
-                {% if loop.index < 8 %}
-                  <a href="/group/{{ group.name }}" class="browse-group">
-                    <img class="browse-group-image" src="{{ group.image_display_url or '/base/images/placeholder-group.png' }}">
-                    <div class="browse-group-title">
-                      {{ group.display_name }}
-                    </div>
-                  </a>
-                {% endif %}
+                <a href="/group/{{ group.name }}" class="browse-group">
+                  <img class="browse-group-image" src="{{ group.image_display_url or '/base/images/placeholder-group.png' }}">
+                  <div class="browse-group-title">
+                    {{ group.display_name }}
+                  </div>
+                </a>
               {% endif %}
             {% endfor %}
           </div>
@@ -41,26 +42,17 @@
       </div>
     </div>
   </div>
-  <div class="main-stats">
-    <div class="container">
-      <div class="row" style="padding-bottom:25px">
-        <div class="span12 col1">
-          {% snippet 'home/snippets/stats.html' %}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="main-updates" style="padding-bottom:20px">
+  {% endif %}
+  <div class="main-updates">
     <div class="container">
       <div class="row">
-        <div class="span4 col1">
-          {% snippet 'home/snippets/latest_topics.html', topics=h.datacity_theme_latest_topic_list() %}
+        <div class="span6 col1">
+          {% snippet 'home/snippets/promoted.html' %}
+          <br>
+          {% snippet 'home/snippets/stats.html' %}
         </div>
-        <div class="span4 col1">
+        <div class="span6 col2">
           {% snippet 'home/snippets/recent_datasets.html' %}
-        </div>
-        <div class="span4 col1">
-          {% snippet 'home/snippets/popular_datasets.html' %}
         </div>
       </div>
     </div>

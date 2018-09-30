@@ -1,0 +1,15 @@
+{% ckan_extends %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="/css/main.css" />
+  <link href='//fonts.googleapis.com/css?family=Lato:400italic,400,900' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" type="text/css" href="/css/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/slick-theme.css"/>
+
+  {% resource 'datacity_theme/favorite.js' %}
+  {% resource 'datacity_theme/slick_min.js' %}
+  {% resource 'datacity_theme/slick.js' %}
+
+{% endblock %}

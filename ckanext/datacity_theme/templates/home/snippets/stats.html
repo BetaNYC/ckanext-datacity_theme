@@ -1,0 +1,49 @@
+{% set stats = h.get_site_statistics() %}
+
+{% block box_stats %}
+<div class="module-content stats">
+  {% block inner %}
+  <h2 class="heading"><a href="/stats#total-datasets">{{ _('{0} statistics').format(g.site_title) }}</a></h2>
+  <div>
+    {% block core_stats %}
+      {%block dataset_count %}
+      <div style="display:inline-block; margin-right:42px;">
+        <a href="{{ h.url_for(controller='package', action='search') }}">
+          <b style="font-size:36px">{{ h.SI_number_span(stats.dataset_count) }}</b><br>
+          {{ _('dataset') if stats.dataset_count == 1 else _('datasets') }}
+        </a>
+      </div>
+      {% endblock %}
+      {%block organization_count %}
+      <div style="display:inline-block; margin-right:42px;">
+        <a href="{{ h.url_for(controller='organization', action='index') }}">
+          <b style="font-size:36px">{{ h.SI_number_span(stats.organization_count) }}</b><br>
+          {{ _('organization') if stats.organization_count == 1 else _('organizations') }}
+        </a>
+      </div>
+      {% endblock %}
+      {% block group_count %}
+      <div style="display:inline-block; margin-right:42px;">
+        <a href="{{ h.url_for(controller='group', action='index') }}">
+          <b style="font-size:36px">{{ h.SI_number_span(stats.group_count) }}</b><br>
+          {{ _('group') if stats.group_count == 1 else _('groups') }}
+        </a>
+      </div>
+      {% endblock %}
+    {% endblock %}
+    {% block related_count %}
+    <div style="display:inline-block; margin-right:42px;">
+      <a href="{{ h.url_for(controller='related', action='dashboard') }}">
+        <b style="font-size:36px">{{ h.SI_number_span(stats.related_count) }}</b><br>
+        {{ _('related item') if stats.related_count == 1 else _('related items') }}
+      </a>
+    </div>
+    {% endblock %}
+
+    {% block more_stats %}
+    {% endblock %}
+  </div>
+  {% endblock %}
+</div>
+{% endblock %}
+
